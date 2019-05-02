@@ -59,9 +59,5 @@ class XD
         return $inst;
     }
 
-    public static function class_is_actual(){
-
-        $GLOBALS["HLEB_PROJECT_UPDATES"]['phphleb/xdorm'] = "1.0.0";
-    }
 }
 
