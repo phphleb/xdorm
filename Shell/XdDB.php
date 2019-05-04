@@ -24,13 +24,11 @@ class XdDB
 
     private static function _instance($conn_type_bd = null)
     {
-        $path_to_config = "";
+        // XDDB_PATH_TO_CONFIG  for a separate library connection
 
-        if(defined("XDDB_PATH_TO_CONFIG")){
-            $path_to_config = XDB_PATH_TO_CONFIG;
-        }
+        $path = defined("XDDB_PATH_TO_CONFIG") ? XDDB_PATH_TO_CONFIG : HLEB_GLOBAL_DIRECTORY . "/database/dbase.config.php";
 
-        include_once empty($path_to_config) ? HLEB_GLOBAL_DIRECTORY . "/database/dbase.config.php" : $path_to_config;
+        include_once "$path";
 
         $conn_type_bd = $conn_type_bd ?? HLEB_TYPE_DB;
 
@@ -107,7 +105,7 @@ class XdDB
 
            $data = [];
 
-           while ($row = $stmt->fetch(PDO::FETCH_LAZY)) $data[] = $row ;
+           while ($row = $stmt->fetch(PDO::FETCH_OBJ)) $data[] = $row ;
 
         } else if($type == null){
 
@@ -121,6 +119,8 @@ class XdDB
 
     private static function _to_debugger(string $sql, array $args, string $dbname, $time, $type, $driver)
     {
+        // If HLEB and debug mode
+
         if(defined("HLEB_PROJECT_DEBUG") && HLEB_PROJECT_DEBUG){
 
             $time = microtime(true) - $time;
@@ -149,7 +149,7 @@ class XdDB
         return self::_run($obj->toString(), self::FETCH_ALL, $obj->getQueryParams(), $type_bd);
     }
 
-    // Возвращает массив строк в виде объектов, к которым можно обращаться как к массиву так и к полям объекта.
+    // Возвращает массив строк в виде объектов, к полям объекта которых можно обращаться.
     public static function getSelectAll(XdHelper $obj, $type_bd = null): array
     {
         return self::_run($obj->toString(), self::SELECT_ALL, $obj->getQueryParams(), $type_bd);

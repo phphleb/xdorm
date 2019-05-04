@@ -207,7 +207,7 @@ class XdHelper
         return XdDB::getSelect($this, $conn);
     }
 
-    // Возвращает массив строк в виде объектов, к которым можно обращаться как к массиву так и к полям объекта.
+    // Возвращает массив строк в виде объектов, к полям объекта которых можно обращаться.
     public function getSelectAll($conn = null)
     {
         return XdDB::getSelectAll($this, $conn);
