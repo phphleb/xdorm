@@ -70,7 +70,7 @@ $query = XD::select('*')->from(['users'])->where(['id'])->in('(', XD::addArray($
 The connection of the parts of the query can be made between the returned objects XD in any order:
 
 ```php
-$select_user_id = XD::select(['id'])->from(['users'])->where(['id'], '=' 15);
+$select_user_id = XD::select(['id'])->from(['users'])->where(['id'], '=', 15);
 $query = XD::select('*')->from(['tasks'])->where(['user_id'], '=', '(', $select_user_id, ')');
 ```
 
