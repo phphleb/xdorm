@@ -91,9 +91,9 @@ $query = $q->leftJoin(['tasks'])->on(['users.id'], '=', ['tasks.user_id']);
 Now you need to run this query and get a result if it is implied. For queries with return data, the following methods exist:
 
 ```php
-$result = $query->getSelectOne(); // Getting one string in the named array.
+$result = $query->getSelectOne(); // Getting one row in the named array.
 $result = $query->getSelectValue(); // Getting one value.
-$result = $query->getSelect(); // Returns an array of strings as named arrays.
+$result = $query->getSelect(); // Returns an array of rows as named arrays.
 $result = $query->getSelectAll(); // Returns an array of objects whose values can be obtained by the fields of the objects.
 ```
 
