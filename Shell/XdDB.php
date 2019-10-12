@@ -75,11 +75,11 @@ class XdDB
 
         $actual_sql = $sql;
 
-          if($driver != 'mysql'){
+        if($driver != 'mysql'){
 
-              $actual_sql = str_replace("`", "", $sql);
+            $actual_sql = str_replace("`", "", $sql);
 
-          }
+        }
 
         $time = microtime(true);
 
@@ -103,9 +103,9 @@ class XdDB
 
         } else if($type == self::SELECT_ALL){
 
-           $data = [];
+            $data = [];
 
-           while ($row = $stmt->fetch(PDO::FETCH_OBJ)) $data[] = $row ;
+            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) $data[] = $row ;
 
         } else if($type == null){
 
@@ -135,33 +135,33 @@ class XdDB
 
                 if(isset($args[$key]) && $args[$key] != null) {
                     $result_sql .=  " " . \Hleb\Main\DataDebug::create_html_param(is_string($args[$key]) ?
-                    self::$instance[$dbname]->quote($args[$key]) : $args[$key]);
+                            self::$instance[$dbname]->quote($args[$key]) : $args[$key]);
                 }
             }
 
-           \Hleb\Main\DataDebug::add($result_sql, $time, $dbname, $type);
+            \Hleb\Main\DataDebug::add($result_sql, $time, $dbname, $type);
         }
     }
 
     // Возвращает массив строк в виде именованных массивов.
-    public static function getSelect(XdHelper $obj, $type_bd = null): array
+    public static function getSelect(XdHelper $obj, $type_bd = null)
     {
         return self::_run($obj->toString(), self::FETCH_ALL, $obj->getQueryParams(), $type_bd);
     }
 
     // Возвращает массив строк в виде объектов, к полям объекта которых можно обращаться.
-    public static function getSelectAll(XdHelper $obj, $type_bd = null): array
+    public static function getSelectAll(XdHelper $obj, $type_bd = null)
     {
         return self::_run($obj->toString(), self::SELECT_ALL, $obj->getQueryParams(), $type_bd);
     }
 
-    // Возвращает одну строку.
-    public static function getSelectOne(XdHelper $obj, $type_bd = null): array
+    // Возвращает одну строку  или false.
+    public static function getSelectOne(XdHelper $obj, $type_bd = null)
     {
         return self::_run($obj->toString(), self::FETCH,  $obj->getQueryParams(), $type_bd);
     }
 
-    // Возвращает одно значение.
+    // Возвращает одно значение или false.
     public static function getSelectValue(XdHelper $obj, $type_bd = null)
     {
         return self::_run($obj->toString(), self::FETCH_COLUMN,  $obj->getQueryParams(), $type_bd);
