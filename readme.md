@@ -22,7 +22,7 @@ $ composer require phphleb/xdorm
 Connection to the project:
 
 ```php
-// Файл /app/Optional/MainConnect.php
+// File /app/Optional/MainConnect.php
 ... [
 "XdORM\XD" => "vendor/phphleb/xdorm/XD.php"
 ] ...
