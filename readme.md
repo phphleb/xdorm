@@ -36,10 +36,10 @@ With knowledge of the SQL syntax, you can start writing the Model immediately. T
 ```php
 use XdORM\XD;
 
-XD::any(); // (string) ANY
-XD::any_words(); // (string) ANY_WORDS
-XD::anyWords(); // (string) ANY WORDS
-XD::any()->words(); // (string) ANY WORDS
+XD::any(); // 'ANY'
+XD::any_words(); // 'ANY_WORDS'
+XD::anyWords(); // 'ANY WORDS'
+XD::any()->words(); // 'ANY WORDS'
 ```
 
 For table names, it is enough to pass them in an array:

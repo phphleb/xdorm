@@ -174,7 +174,7 @@ class XdHelper
         if (!preg_match("#^[a-z0-9\.\-\_]+$#i", implode($list))) {
             trigger_error("Param 'list' on " . $name . " is not valid name!", E_USER_ERROR);
         }
-        return "`" . implode("`, `", $list) . "`";
+        return str_replace('.', '`.`', "`" . implode("`, `", $list) . "`");
     }
 
     // Возвращает объект PDOStatement.
