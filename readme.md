@@ -15,7 +15,7 @@ In fact, XD ORM is a shell over PHP PDO, designed specifically for the framework
 
 The XD ORM is not included in the original configuration of the framework, so it must be copied to the folder with the vendor/phphleb  libraries from the [github.com/phphleb/xdorm](https://github.com/phphleb/xdorm)  repository or installed using Composer:
 
-```html
+```bash
 $ composer require phphleb/xdorm
 ```
 
