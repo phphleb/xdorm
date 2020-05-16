@@ -59,5 +59,15 @@ class XD
         return $inst;
     }
 
+    /*
+     * Adding an array of arguments to the request.
+     *
+     * Добавление массива аргументов к запросу.
+     */
+    public static function setList(array $array): XdHelper
+    {
+        return self::addArray($array);
+    }
+
 }
 

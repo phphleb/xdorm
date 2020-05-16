@@ -22,6 +22,67 @@ class XdDB
 
     public function __clone(){}
 
+
+    /*
+     * Returns an array of strings as named arrays.
+     *
+     * Возвращает массив строк в виде именованных массивов.
+     */
+    public static function getSelect(XdHelper $obj, $type_bd = null)
+    {
+        return self::_run($obj->toString(), self::FETCH_ALL, $obj->getQueryParams(), $type_bd);
+    }
+
+    /*
+     * Returns an array of strings in the form of objects whose object fields can be accessed.
+     *
+     * Возвращает массив строк в виде объектов, к полям объекта которых можно обращаться.
+     */
+    public static function getSelectAll(XdHelper $obj, $type_bd = null)
+    {
+        return self::_run($obj->toString(), self::SELECT_ALL, $obj->getQueryParams(), $type_bd);
+    }
+
+    /*
+     * Returns a single row or false.
+     *
+     * Возвращает одну строку или false.
+     */
+    public static function getSelectOne(XdHelper $obj, $type_bd = null)
+    {
+        return self::_run($obj->toString(), self::FETCH,  $obj->getQueryParams(), $type_bd);
+    }
+
+    /*
+     * Returns a single value or false.
+     *
+     * Возвращает одно значение или false.
+     */
+    public static function getSelectValue(XdHelper $obj, $type_bd = null)
+    {
+        return self::_run($obj->toString(), self::FETCH_COLUMN,  $obj->getQueryParams(), $type_bd);
+    }
+
+    /*
+     * Returns a PDOStatement object.
+     *
+     * Возвращает объект PDOStatement.
+     */
+    public static function execute(XdHelper $obj, $type_bd = null)
+    {
+        return self::_run($obj->toString(), self::EXEC,  $obj->getQueryParams(), $type_bd);
+    }
+
+    /*
+     * Returns the number of rows affected by the query.
+     *
+     * Возвращает количество затронутых запросом строк.
+     */
+    public static function run(XdHelper $obj, $type_bd = null)
+    {
+        return self::_run($obj->toString(), null,  $obj->getQueryParams(), $type_bd);
+    }
+
     private static function _instance($conn_type_bd = null)
     {
         // XDDB_PATH_TO_CONFIG  for a separate library connection
@@ -75,7 +136,7 @@ class XdDB
 
         $actual_sql = $sql;
 
-        if($driver != 'mysql'){
+        if($driver != 'mysql' || (defined('XDDB_DISABLE_REVERSE_QUOTES') && XDDB_DISABLE_REVERSE_QUOTES)){
 
             $actual_sql = str_replace("`", "", $sql);
 
@@ -142,43 +203,6 @@ class XdDB
             \Hleb\Main\DataDebug::add($result_sql, $time, $dbname, $type);
         }
     }
-
-    // Возвращает массив строк в виде именованных массивов.
-    public static function getSelect(XdHelper $obj, $type_bd = null)
-    {
-        return self::_run($obj->toString(), self::FETCH_ALL, $obj->getQueryParams(), $type_bd);
-    }
-
-    // Возвращает массив строк в виде объектов, к полям объекта которых можно обращаться.
-    public static function getSelectAll(XdHelper $obj, $type_bd = null)
-    {
-        return self::_run($obj->toString(), self::SELECT_ALL, $obj->getQueryParams(), $type_bd);
-    }
-
-    // Возвращает одну строку  или false.
-    public static function getSelectOne(XdHelper $obj, $type_bd = null)
-    {
-        return self::_run($obj->toString(), self::FETCH,  $obj->getQueryParams(), $type_bd);
-    }
-
-    // Возвращает одно значение или false.
-    public static function getSelectValue(XdHelper $obj, $type_bd = null)
-    {
-        return self::_run($obj->toString(), self::FETCH_COLUMN,  $obj->getQueryParams(), $type_bd);
-    }
-
-    // Возвращает объект PDOStatement.
-    public static function execute(XdHelper $obj, $type_bd = null)
-    {
-        return self::_run($obj->toString(), self::EXEC,  $obj->getQueryParams(), $type_bd);
-    }
-
-    // Возвращает количество затронутых запросом строк.
-    public static function run(XdHelper $obj, $type_bd = null)
-    {
-        return self::_run($obj->toString(), null,  $obj->getQueryParams(), $type_bd);
-    }
-
 }
 
 

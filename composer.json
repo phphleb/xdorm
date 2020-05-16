@@ -24,6 +24,7 @@
   },
     "require": {
       "php": "^7.0.0",
-      "ext-ctype": "*"
+      "ext-ctype": "*",
+      "ext-pdo": "*"
     }
 }

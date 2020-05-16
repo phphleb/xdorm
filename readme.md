@@ -45,26 +45,27 @@ XD::any()->words(); // 'ANY WORDS'
 For table names, it is enough to pass them in an array:
 
 ```php
-$query = XD::select(['id', 'name', 'email'])->from(['users']); // SELECT `id`, `name`, `email` FROM `users`
+$query = XD::select(['id', 'name', 'email'])->from(['users']);
+ // SELECT `id`, `name`, `email` FROM `users`;
 ```
 
 Values are inserted as is, but all string values, except for SQL statements and special characters, will be checked using the built-in PDO:
 
 ```php
 $query = XD::select('*')->from(['users'])->where(['name'], '!=', "d'Artanyan")->and(['id'], '=', 1)->limit(1);
-// SELECT * FROM `users` WHERE `name` != 'd\'Artanyan' AND `id` = 1 LIMIT 1
+// SELECT * FROM `users` WHERE `name` != 'd\'Artanyan' AND `id` = 1 LIMIT 1;
 
 $query = XD::select('*')->from(['users'])->where(['id'])->in('(', 15, 43, 60, 71, ')');
-// SELECT * FROM `users` WHERE `id` IN ( 15, 43, 60, 71 )
+// SELECT * FROM `users` WHERE `id` IN ( 15, 43, 60, 71);
 ```
 
 
-To pass an array of values, there is a special method addArray():
+To pass an array of values, there is a special method setList():
 
 ```php
 $ids = [15, 43, 60, 71];
-$query = XD::select('*')->from(['users'])->where(['id'])->in('(', XD::addArray($ids),')');
-// SELECT * FROM `users` WHERE `id` IN ( 15, 43, 60, 71 )
+$query = XD::select('*')->from(['users'])->where(['id'])->in('(', XD::setList($ids), ',', 156, ',', 200, ')');
+// SELECT * FROM `users` WHERE `id` IN ( 15, 43, 60, 71, 156, 200);
 ```
 
 The connection of the parts of the query can be made between the returned objects XD in any order:
@@ -80,12 +81,12 @@ Or so:
 $q = XD::select('*')->from(['users']);
 
 $query = $q->limit(100);
-// SELECT * FROM `users` LIMIT 100
+// SELECT * FROM `users` LIMIT 100;
 
 // or (but not the "and", as there will be a concatenation with the previous action)
 
 $query = $q->leftJoin(['tasks'])->on(['users.id'], '=', ['tasks.user_id']);
-// SELECT * FROM `users` LEFT JOIN `tasks` ON `users.id` = `tasks.user_id`
+// SELECT * FROM `users` LEFT JOIN `tasks` ON `users`.`id` = `tasks`.`user_id`;
 ```
 
 Now you need to run this query and get a result if it is implied. For queries with return data, the following methods exist:

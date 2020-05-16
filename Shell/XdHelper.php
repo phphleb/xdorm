@@ -45,11 +45,21 @@ class XdHelper
         return $this->instance();
     }
 
+    /*
+     * Returns the current value of the generated request.
+     *
+     * Возвращает текущее значение сформированного запроса.
+     */
     public function toString(): string
     {
         return XD::checkKey($this->key) ? trim($this->str) : null;
     }
 
+    /*
+     * Returns an array of parameters of the current request.
+     *
+     * Возвращает массив параметров текущего запроса.
+     */
     public function getQueryParams(): array
     {
         return XD::checkKey($this->key) ? $this->params : null;
@@ -58,6 +68,66 @@ class XdHelper
     public function toQueryData(): array
     {
         return XD::checkKey($this->key) ? [trim($this->str), $this->params] : null;
+    }
+
+    /*
+     * Returns a PDOStatement object.
+     *
+     * Возвращает объект PDOStatement.
+     */
+    public function execute($conn = null)
+    {
+        return XdDB::execute($this, $conn);
+    }
+
+    /*
+     * Returns the number of rows affected by the query.
+     *
+     * Возвращает количество затронутых запросом строк.
+     */
+    public function run($conn = null)
+    {
+        return XdDB::run($this, $conn);
+    }
+
+    /*
+    * Returns a single row or false.
+    *
+    * Возвращает одну строку или false.
+    */
+    public function getSelectOne($conn = null)
+    {
+        return XdDB::getSelectOne($this, $conn);
+    }
+
+    /*
+     * Returns a single value or false.
+     *
+     * Возвращает одно значение или false.
+     */
+    public function getSelectValue($conn = null)
+    {
+        return XdDB::getSelectValue($this, $conn);
+    }
+
+    /*
+    * Returns an array of strings as named arrays.
+    *
+    * Возвращает массив строк в виде именованных массивов.
+    */
+    public function getSelect($conn = null)
+    {
+        return XdDB::getSelect($this, $conn);
+    }
+
+    /*
+     * Returns an array of strings in the form of objects whose object fields can be accessed.
+     *
+     * Возвращает массив строк в виде объектов, к полям объекта которых можно обращаться.
+     */
+    public function getSelectAll($conn = null)
+    {
+        return XdDB::getSelectAll($this, $conn);
     }
 
 
@@ -82,6 +152,11 @@ class XdHelper
 
         $this->str .= $valid_name . implode(" ", count($args) ? $this->_sort_and_check_args($name, $args) : []);
 
+    }
+
+    public function addArray(array $arg)
+    {
+        $this->str .= $this->_array_arg('addArray', $arg);
     }
 
     private function _sort_and_check_args(string $name, array $args, bool $first = true)
@@ -134,11 +209,6 @@ class XdHelper
         return $arg->toString();
     }
 
-    public function addArray(array $arg)
-    {
-        $this->str .= $this->_array_arg('addArray', $arg);
-    }
-
     public function _array_arg(string $name, array $arg): string
     {
         if (!XD::checkKey($this->key)) return "";
@@ -146,7 +216,7 @@ class XdHelper
         $array_sort = $this->_sort_and_check_args($name, $arg, false);
 
         if (is_numeric(implode(array_keys($array_sort)))) {
-            return implode(",", $array_sort);
+            return implode(", ", $array_sort);
         }
         $named_values = " ";
         foreach ($array_sort as $key => $value) {
@@ -176,42 +246,5 @@ class XdHelper
         }
         return str_replace('.', '`.`', "`" . implode("`, `", $list) . "`");
     }
-
-    // Возвращает объект PDOStatement.
-    public function execute($conn = null)
-    {
-        return XdDB::execute($this, $conn);
-    }
-
-    // Возвращает количество затронутых запросом строк.
-    public function run($conn = null)
-    {
-        return XdDB::run($this, $conn);
-    }
-
-    // Возвращает одну строку.
-    public function getSelectOne($conn = null)
-    {
-        return XdDB::getSelectOne($this, $conn);
-    }
-
-    // Возвращает одно значение.
-    public function getSelectValue($conn = null)
-    {
-        return XdDB::getSelectValue($this, $conn);
-    }
-
-    // Возвращает массив строк в виде именованных массивов.
-    public function getSelect($conn = null)
-    {
-        return XdDB::getSelect($this, $conn);
-    }
-
-    // Возвращает массив строк в виде объектов, к полям объекта которых можно обращаться.
-    public function getSelectAll($conn = null)
-    {
-        return XdDB::getSelectAll($this, $conn);
-    }
-
 }
 
