@@ -136,7 +136,7 @@ class XdDB
 
         $actual_sql = $sql;
 
-        if($driver != 'mysql' || (defined('XDDB_DISABLE_REVERSE_QUOTES') && XDDB_DISABLE_REVERSE_QUOTES)){
+        if($driver !== 'mysql' || (defined('HLEB_DB_DISABLE_REVERSE_QUOTES') && HLEB_DB_DISABLE_REVERSE_QUOTES === true)){
 
             $actual_sql = str_replace("`", "", $sql);
 
