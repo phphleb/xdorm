@@ -55,7 +55,7 @@ Values are inserted as is, but all string values, except for SQL statements and 
 $query = XD::select('*')->from(['users'])->where(['name'], '!=', "d'Artanyan")->and(['id'], '=', 1)->limit(1);
 // SELECT * FROM `users` WHERE `name` != 'd\'Artanyan' AND `id` = 1 LIMIT 1;
 
-$query = XD::select('*')->from(['users'])->where(['id'])->in('(', 15, 43, 60, 71, ')');
+$query = XD::select('*')->from(['users'])->where(['id'])->in('(', 15, ',', 43, ',', 60, ',', 71, ')');
 // SELECT * FROM `users` WHERE `id` IN ( 15, 43, 60, 71);
 ```
 
