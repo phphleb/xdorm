@@ -52,7 +52,7 @@ class XdHelper
      */
     public function toString(): string
     {
-        return XD::checkKey($this->key) ? trim($this->str) : null;
+        return XD::checkKey($this->key) ? trim($this->str) : '';
     }
 
     /*
@@ -62,12 +62,12 @@ class XdHelper
      */
     public function getQueryParams(): array
     {
-        return XD::checkKey($this->key) ? $this->params : null;
+        return XD::checkKey($this->key) ? $this->params : [];
     }
 
     public function toQueryData(): array
     {
-        return XD::checkKey($this->key) ? [trim($this->str), $this->params] : null;
+        return XD::checkKey($this->key) ? [trim($this->str), $this->params] : [];
     }
 
     /*
