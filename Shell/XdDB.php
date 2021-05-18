@@ -95,20 +95,19 @@ class XdDB
 
         if(!isset(self::$instance[$conn_type_bd])) {
 
-            $prms = HLEB_PARAMETERS_FOR_DB[$conn_type_bd];
+            $param = HLEB_PARAMETERS_FOR_DB[$conn_type_bd];
 
-            $opt = array(
-                \PDO::ATTR_ERRMODE => $prms["errmode"] ?? \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => $prms["default_fetch_mode"] ?? \PDO::FETCH_ASSOC,
-                \PDO::ATTR_EMULATE_PREPARES => $prms["emulate_prepares"] ?? false
-            );
+            $opt = array_merge([
+                \PDO::ATTR_ERRMODE => $param["errmode"] ?? \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => $param["default-mode"] ?? $param["default_fetch_mode"] ?? \PDO::FETCH_ASSOC,
+                \PDO::ATTR_EMULATE_PREPARES => $param["emulate-prepares"] ?? $param["emulate_prepares"] ?? false
+            ], $param["options-list"] ?? []);
 
-            $user = $prms["user"] ?? '';
-            $pass = $prms["pass"] ?? $prms["password"] ?? '';
+            $user = $param["user"] ?? '';
+            $pass = $param["pass"] ?? $param["password"] ?? '';
+            $condition = [];
 
-            $condition  = [];
-
-            foreach($prms as $key => $prm){
+            foreach($param as $key => $prm){
                 if(is_numeric($key)) {
                     $condition [] = preg_replace('/\s+/', '', $prm);
                 }
