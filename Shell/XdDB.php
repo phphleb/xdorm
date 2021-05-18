@@ -98,13 +98,13 @@ class XdDB
             $prms = HLEB_PARAMETERS_FOR_DB[$conn_type_bd];
 
             $opt = array(
-                \PDO::ATTR_ERRMODE => $param["errmode"] ?? \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => $param["default_fetch_mode"] ?? \PDO::FETCH_ASSOC,
-                \PDO::ATTR_EMULATE_PREPARES => $param["emulate_prepares"] ?? false
+                \PDO::ATTR_ERRMODE => $prms["errmode"] ?? \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => $prms["default_fetch_mode"] ?? \PDO::FETCH_ASSOC,
+                \PDO::ATTR_EMULATE_PREPARES => $prms["emulate_prepares"] ?? false
             );
 
-            $user = $param["user"] ?? '';
-            $pass = $param["pass"] ?? $param["password"] ?? '';
+            $user = $prms["user"] ?? '';
+            $pass = $prms["pass"] ?? $prms["password"] ?? '';
 
             $condition  = [];
 
