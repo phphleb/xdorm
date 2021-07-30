@@ -97,11 +97,15 @@ class XdDB
 
             $param = HLEB_PARAMETERS_FOR_DB[$conn_type_bd];
 
-            $opt = array_merge([
-                \PDO::ATTR_ERRMODE => $param["errmode"] ?? \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => $param["default-mode"] ?? $param["default_fetch_mode"] ?? \PDO::FETCH_ASSOC,
-                \PDO::ATTR_EMULATE_PREPARES => $param["emulate-prepares"] ?? $param["emulate_prepares"] ?? false
-            ], $param["options-list"] ?? []);
+            $opt = [
+                \PDO::ATTR_ERRMODE => $prms["errmode"] ?? \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => $prms["default_fetch_mode"] ?? \PDO::FETCH_ASSOC,
+                \PDO::ATTR_EMULATE_PREPARES => $prms["emulate_prepares"] ?? false
+            ];
+
+            foreach($param["options-list"] ?? [] as $key => $value) {
+                $opt[$key] = $value;
+            }
 
             $user = $param["user"] ?? '';
             $pass = $param["pass"] ?? $param["password"] ?? '';
@@ -123,7 +127,7 @@ class XdDB
         return self::$instance[$conn_type_bd];
     }
 
-    private static function _run(string $sql, $type, $args = array(), $conn_type_bd = null)
+    private static function _run(string $sql, $type, $args = [], $conn_type_bd = null)
     {
         if(!self::_instance($conn_type_bd)) return false;
 
