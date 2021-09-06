@@ -97,6 +97,10 @@ $result = $query->getSelectValue(); // Getting one value.
 $result = $query->getSelect(); // Returns an array of rows as named arrays.
 $result = $query->getSelectAll(); // Returns an array of objects whose values can be obtained by the fields of the objects.
 ```
+```php
+$result = XD::selectCount_('(*)')->from(['users'])->getSelectValue();
+// SELECT COUNT(*) FROM `users`;
+```
 
 For all other queries that do not return a result set, it is enough to add run() to execute the query.
 
