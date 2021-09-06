@@ -148,7 +148,12 @@ class XdHelper
 
     private function _create_data($name, $args)
     {
-        $valid_name = " " . strtoupper($this->_validate_name($name)) . " ";
+        $end = ' ';
+        if(substr($name, -1) === '_') {
+            $end = '';
+            $name = substr($name, 0, -1);
+        }
+        $valid_name = " " . strtoupper($this->_validate_name($name)) . $end;
 
         $this->str .= $valid_name . implode(" ", count($args) ? $this->_sort_and_check_args($name, $args) : []);
 
