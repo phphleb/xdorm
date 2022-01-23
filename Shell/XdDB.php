@@ -97,31 +97,23 @@ class XdDB
 
             $param = HLEB_PARAMETERS_FOR_DB[$conn_type_bd];
 
-            $opt = [
-                \PDO::ATTR_ERRMODE => $prms["errmode"] ?? \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => $prms["default_fetch_mode"] ?? \PDO::FETCH_ASSOC,
-                \PDO::ATTR_EMULATE_PREPARES => $prms["emulate_prepares"] ?? false
-            ];
+            $opt = $param["options-list"] ?? [];
 
-            foreach($param["options-list"] ?? [] as $key => $value) {
-                $opt[$key] = $value;
-            }
+            $opt[\PDO::ATTR_ERRMODE] = $param["errmode"] ?? \PDO::ERRMODE_EXCEPTION;
+            $opt[\PDO::ATTR_DEFAULT_FETCH_MODE] = $param["default_fetch_mode"] ?? \PDO::FETCH_ASSOC;
+            $opt[\PDO::ATTR_EMULATE_PREPARES] = $param["emulate_prepares"] ?? false;
 
             $user = $param["user"] ?? '';
             $pass = $param["pass"] ?? $param["password"] ?? '';
             $condition = [];
 
-            foreach($param as $key => $prm){
+            foreach($param as $key => $value){
                 if(is_numeric($key)) {
-                    $condition [] = preg_replace('/\s+/', '', $prm);
+                    $condition [] = preg_replace('/\s+/', '', $value);
                 }
             }
 
-            $connection = implode(";", $condition );
-
-            $obj = new PDO($connection, $user, $pass, $opt);
-
-            self::$instance[$conn_type_bd] = $obj;
+            self::$instance[$conn_type_bd] = new PDO(implode(";", $condition ), $user, $pass, $opt);
         }
 
         return self::$instance[$conn_type_bd];
