@@ -27,11 +27,7 @@ class XD
     private static function hd_create_key(): string
     {
         if (empty(self::$key)) {
-            try {
-                self::$key = bin2hex(random_bytes(10));
-            } catch (\Exception $ex) {
-                self::$key = str_shuffle(md5(rand()));
-            }
+          self::$key = str_shuffle(strval(rand()));
         }
         return self::$key;
     }
