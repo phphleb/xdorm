@@ -200,8 +200,13 @@ class XdHelper
 
     private function _string_arq(string $arg): string
     {
-        if (strlen($arg) < 4 && !in_array($arg, ["?", "/*", "--", "*/"]) &&
-            preg_match("#^[\<\>\=\-\+\/\*\(\)\[\]\!\%\&\,\#\?\^\~\{\}\:\@\.]+$#", $arg)) {
+        if (strlen($arg) === 1 &&
+            preg_match("#^[\¬\<\>\=\-\+\/\*\(\)\[\]\!\%\&\,\#\^\~\{\}\:\@\.\|]+$#", $arg)) {
+            return $arg;
+        } else if (strlen($arg) == 2 && !in_array($arg, ["/*", "--", "*/"]) &&
+            preg_match("#^[\¬\<\>\=\-\+\/\*\(\)\,\[\]\!\&\#\?\@\.\:\|]+$#", $arg)) {
+            return $arg;
+        } else if ($arg === "(*)") {
             return $arg;
         }
             $this->params[] = $arg;
@@ -246,7 +251,7 @@ class XdHelper
 
     private function _array_helper(string $name, array $list)
     {
-        if (!preg_match("#^[a-z0-9\.\-\_]+$#i", implode($list))) {
+        if (!preg_match("#^[a-z0-9\.\-\_\[\]]+$#i", implode($list))) {
             trigger_error("Param 'list' on " . $name . " is not valid name!", E_USER_ERROR);
         }
         return str_replace('.', '`.`', "`" . implode("`, `", $list) . "`");
