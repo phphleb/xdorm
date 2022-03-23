@@ -181,6 +181,8 @@ class XdHelper
                 $result[$key] = $this->_int_arq($arg);
             } else if (is_float($arg)) {
                 $result[$key] = $this->_float_arq($arg);
+            } else if (is_null($arg)) {
+                $result[$key] = $this->_null_arq();
             }
         }
         return $result;
@@ -233,6 +235,12 @@ class XdHelper
             if (is_string($key) && (is_string($value) || is_numeric($value))) $named_values .= "'$key' = $value,";
         }
         return trim($named_values, ",") . " ";
+    }
+
+    private function _null_arq()
+    {
+        $this->params[] = NULL;
+        return self::QUERY_VARIABLE;
     }
 
     private function _validate_name(string $name): string
