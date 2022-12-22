@@ -112,8 +112,12 @@ class XdDB
                     $condition [] = preg_replace('/\s+/', '', $value);
                 }
             }
+            try {
+                self::$instance[$conn_type_bd] = new PDO(implode(";", $condition), $user, $pass, $opt);
 
-            self::$instance[$conn_type_bd] = new PDO(implode(";", $condition ), $user, $pass, $opt);
+            } catch (\PDOException $e) {
+                throw new \PDOException($e->getMessage(), (int)$e->getCode());
+            }
         }
 
         return self::$instance[$conn_type_bd];
